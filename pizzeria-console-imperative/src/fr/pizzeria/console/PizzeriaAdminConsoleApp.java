@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class PizzeriaAdminConsoleApp {
 
-	public static String[] menu = {
+	public static String[] menu = {							// Phrases du menu principal
 			"***** Pizzeria Administration *****",
 			"1. Lister les pizzas",
 			"2. Ajouter une nouvelle pizza",
@@ -12,8 +12,8 @@ public class PizzeriaAdminConsoleApp {
 			"4. Supprimer une pizza",
 			"99. Sortir",
 	};
-	public static Scanner reader = new Scanner(System.in);  // Reading from System.in.
-	public static String[][] pizzas = {
+	public static Scanner reader = new Scanner(System.in);  // Déclaration du "Reader" pour les saisies utilisateur
+	public static String[][] pizzas = {						// Tableau répertoriant les pizzas
 			{"0", "PEP", "Pépéroni", "12.50"},
 			{"1", "MAR", "Margherita", "14.00"},
 			{"2", "REI", "La Reine", "11.50"},
@@ -42,6 +42,24 @@ public class PizzeriaAdminConsoleApp {
 		pizzas = newMenu;
 	}
 
+	public static void removePizzaFromArray(String pizzaId) {
+
+		String[][] newMenu = new String[pizzas.length - 1][4];
+
+		int index = 0;
+		for (int i = 0; i < pizzas.length; i++) {
+			
+			if (!pizzaId.equals(pizzas[i][1])) {
+				for (int j = 0; j < 4; ++j) {
+					newMenu[index][j] = pizzas[i][j];
+				}
+				index++;
+			}
+		}
+
+		pizzas = newMenu;
+	}
+
 	public static void printPizzaList(boolean initial) {
 
 		if (initial) {
@@ -63,13 +81,13 @@ public class PizzeriaAdminConsoleApp {
 	public static void createPizza() {
 
 		System.out.println("Veuillez saisir le code");
-		String code = reader.next(); // Scans the next token of the input as an int.
+		String code = reader.next();
 
 		System.out.println("Veuillez saisir le nom (sans espace)");
-		String name = reader.next(); // Scans the next token of the input as an int.
+		String name = reader.next();
 
 		System.out.println("Veuillez saisir le prix");
-		String price = reader.next(); // Scans the next token of the input as an int.
+		String price = reader.next();
 
 		String[] newPizza = {code, name, price};
 		pushPizzaToArray(newPizza);
@@ -90,22 +108,22 @@ public class PizzeriaAdminConsoleApp {
 		while (true) {
 			printPizzaList(false);
 
-			String code = reader.next(); // Scans the next input
+			String code = reader.next();
 			int pizzaId = getIdFromCode(code);
 
 			if (pizzaId != -1) {
 				System.out.println("Veuillez saisir le code");
-				String newCode = reader.next(); // Scans the next input
+				String newCode = reader.next();
 				pizzas[pizzaId][1] = newCode;
 
 				System.out.println("Veuillez saisir le nom (sans espace)");
-				String name = reader.next(); // Scans the next input
+				String name = reader.next();
 				pizzas[pizzaId][2] = name;
 
 				System.out.println("Veuillez saisir le prix");
-				String price = reader.next(); // Scans the next input
+				String price = reader.next();
 				pizzas[pizzaId][3] = price;
-				
+
 				break;
 			}
 			else if (code.equals("99")) {
@@ -115,13 +133,27 @@ public class PizzeriaAdminConsoleApp {
 	}
 
 	public static void deletePizza() {
-		System.out.println("Suppression d’une pizza");
+		while (true) {
+			printPizzaList(false);
+
+			String code = reader.next();
+
+			if (code.equals("99")) {
+				break;
+			}
+			else if (getIdFromCode(code) != -1) {
+				removePizzaFromArray(code);
+			}
+		}
 	}	
 
 	public static void printBye() {
 		System.out.println("Aurevoir :(");
 	}
 
+	/**
+	 * 
+	 */
 	public static void printMenu() {
 
 		boolean flag = false;
@@ -132,11 +164,11 @@ public class PizzeriaAdminConsoleApp {
 				System.out.println(s);
 			}
 
-			int choice = reader.nextInt(); // Scans the next token of the input as an int.
+			int choice = reader.nextInt();
 
 			switch (choice) {
 			case 1:
-				printPizzaList(false); // display initial menu with false
+				printPizzaList(false);
 				break;
 			case 2:
 				createPizza();
@@ -159,6 +191,12 @@ public class PizzeriaAdminConsoleApp {
 		}
 	}
 
+	/**
+	 * Point d'entrée du programme
+	 * On execute la fonction qui va afficher le menu principal
+	 * en boucle
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		printMenu();
