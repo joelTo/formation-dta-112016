@@ -47,11 +47,11 @@ public class PizzeriaAdminConsoleApp {
 			case 2:
 				System.out.println("***** Ajouter une nouvelle pizza *****");
 				String[][] temp = listPizza;
-				listPizza = new String[listPizza.length+1][3];
+				listPizza = new String[listPizza.length+1][4];
 				for (int i=0; i<temp.length; i++){
 					listPizza[i] = temp[i];
 				}
-				listPizza[listPizza.length-1] = setPizza(sc);
+				listPizza[listPizza.length-1] = setPizza(sc, listPizza.length-1);
 				break;
 			case 3:
 				System.out.println("***** Mettre à jour une pizza *****");
@@ -63,7 +63,7 @@ public class PizzeriaAdminConsoleApp {
 					String temp1 = sc.next();
 					try{
 						option1 = Integer.parseInt(temp1);
-						if(option1!=99||(0<=option1&option1<listPizza.length)){
+						if(option1==99||(0<=option1&option1<listPizza.length)){
 							break;
 						}
 						System.out.println("Saisie incorrect veuillez entrez une option valide...");
@@ -74,7 +74,7 @@ public class PizzeriaAdminConsoleApp {
 				if(option1==99){
 					break;
 				} else {
-					listPizza[option1]=setPizza(sc);
+					listPizza[option1]=setPizza(sc, option1);
 				}
 				break;
 			case 4:
@@ -99,7 +99,7 @@ public class PizzeriaAdminConsoleApp {
 					break;
 				} else {
 					String[][] tempPizzaList = listPizza;
-					listPizza = new String[listPizza.length-1][3];
+					listPizza = new String[listPizza.length-1][4];
 					for(int i=0,iL=0; iL<tempPizzaList.length; i++,iL++){
 						if(i==option2){
 							iL++;
@@ -138,8 +138,9 @@ public class PizzeriaAdminConsoleApp {
 		}
 	}
 
-	private static String[] setPizza(Scanner sc) {
-		String[] tempPizza = new String[3];
+	private static String[] setPizza(Scanner sc, int index) {
+		String[] tempPizza = new String[4];
+		tempPizza[0] = ""+index;
 		System.out.println("Veuillez saisir le code");
 		tempPizza[1] = sc.next();
 		System.out.println("Veuillez saisir le nom");
