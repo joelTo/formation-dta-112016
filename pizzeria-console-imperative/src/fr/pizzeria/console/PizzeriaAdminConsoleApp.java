@@ -60,7 +60,7 @@ public class PizzeriaAdminConsoleApp {
 		pizzas = newMenu;
 	}
 
-	public static void printPizzaList(boolean initial) {
+	public static void printPizzaList(boolean initial, String action) {
 
 		if (initial) {
 			for (String[] p: pizzas)
@@ -73,7 +73,7 @@ public class PizzeriaAdminConsoleApp {
 			{
 				System.out.println(p[1] + " - " + p[2] + " (" + p[3] + " €)");
 			}
-			System.out.println("Veuillez choisir la pizza à modifier.");
+			System.out.println("Veuillez choisir la pizza à " + action + ".");
 			System.out.println("(99 pour abandonner).");
 		}
 	}
@@ -106,7 +106,7 @@ public class PizzeriaAdminConsoleApp {
 	public static void updatePizza() {
 
 		while (true) {
-			printPizzaList(false);
+			printPizzaList(false, "modifier");
 
 			String code = reader.next();
 			int pizzaId = getIdFromCode(code);
@@ -134,7 +134,7 @@ public class PizzeriaAdminConsoleApp {
 
 	public static void deletePizza() {
 		while (true) {
-			printPizzaList(false);
+			printPizzaList(false, "supprimer");
 
 			String code = reader.next();
 
@@ -143,6 +143,7 @@ public class PizzeriaAdminConsoleApp {
 			}
 			else if (getIdFromCode(code) != -1) {
 				removePizzaFromArray(code);
+				break;
 			}
 		}
 	}	
@@ -168,7 +169,7 @@ public class PizzeriaAdminConsoleApp {
 
 			switch (choice) {
 			case 1:
-				printPizzaList(false);
+				printPizzaList(true, null);
 				break;
 			case 2:
 				createPizza();
