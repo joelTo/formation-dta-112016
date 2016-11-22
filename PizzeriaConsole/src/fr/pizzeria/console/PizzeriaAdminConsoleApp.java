@@ -2,8 +2,6 @@ package fr.pizzeria.console;
 
 import java.util.Scanner;
 
-import fr.pizzeria.items.Pizza;
-
 public class PizzeriaAdminConsoleApp {
 
 	public static void main(String[] args) {
