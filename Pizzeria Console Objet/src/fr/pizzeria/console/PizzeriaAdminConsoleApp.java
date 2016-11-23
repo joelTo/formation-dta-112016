@@ -2,18 +2,20 @@ package fr.pizzeria.console;
 
 import java.util.Scanner;
 
+import fr.pizzeria.model.Pizza;
+
 public class PizzeriaAdminConsoleApp {
+	static Pizza[] listPizza = new Pizza[8];
 
 	public static void main(String[] args) {
-		String[][] listPizza = new String[8][];
-		listPizza[0] = new String[]{"0","PEP","Pépéroni", "12.50"};
-		listPizza[1] = new String[]{"1","MAR","Margharita", "14.00"};
-		listPizza[2] = new String[]{"2","REI","La reine", "11.50"};
-		listPizza[3] = new String[]{"2","FRO","La 4 fromage", "12.00"};
-		listPizza[4] = new String[]{"4","CAN","La cannibale", "12.50"};
-		listPizza[5] = new String[]{"5","SAV","La savoyarde", "13.00"};
-		listPizza[6] = new String[]{"6","ORI","L'oriental", "13.50"};
-		listPizza[7] = new String[]{"7","IND","L'indienne", "14.00"};
+		listPizza[0] = new Pizza(0,"PEP","Pépéroni", 12.50);
+		listPizza[1] = new Pizza(1,"MAR","Margharita", 14.00);
+		listPizza[2] = new Pizza(2,"REI","La reine", 11.50);
+		listPizza[3] = new Pizza(2,"FRO","La 4 fromage", 12.00);
+		listPizza[4] = new Pizza(4,"CAN","La cannibale", 12.50);
+		listPizza[5] = new Pizza(5,"SAV","La savoyarde", 13.00);
+		listPizza[6] = new Pizza(6,"ORI","L'oriental", 13.50);
+		listPizza[7] = new Pizza(7,"IND","L'indienne", 14.00);
 		Scanner sc = new Scanner(System.in);
 		while(true){
 			System.out.println("***** Pizzeria Administration *****");
@@ -46,12 +48,12 @@ public class PizzeriaAdminConsoleApp {
 				break;
 			case 2:
 				System.out.println("***** Ajouter une nouvelle pizza *****");
-				String[][] temp = listPizza;
-				listPizza = new String[listPizza.length+1][4];
+				Pizza[] temp = listPizza;
+				listPizza = new Pizza[listPizza.length+1];
 				for (int i=0; i<temp.length; i++){
 					listPizza[i] = temp[i];
 				}
-				listPizza[listPizza.length-1] = setPizza(sc, listPizza.length-1);
+				listPizza[listPizza.length-1] = addPizza(sc, listPizza.length-1);
 				break;
 			case 3:
 				System.out.println("***** Mettre à jour une pizza *****");
@@ -74,7 +76,7 @@ public class PizzeriaAdminConsoleApp {
 				if(option1==99){
 					break;
 				} else {
-					listPizza[option1]=setPizza(sc, option1);
+					modifyPizza(sc, option1);
 				}
 				break;
 			case 4:
@@ -98,8 +100,8 @@ public class PizzeriaAdminConsoleApp {
 				if(option2==99){
 					break;
 				} else {
-					String[][] tempPizzaList = listPizza;
-					listPizza = new String[listPizza.length-1][4];
+					Pizza[] tempPizzaList = listPizza;
+					listPizza = new Pizza[listPizza.length-1];
 					for(int i=0,iL=0; iL<tempPizzaList.length; i++,iL++){
 						if(i==option2){
 							iL++;
@@ -109,6 +111,7 @@ public class PizzeriaAdminConsoleApp {
 						}
 					}
 				}
+				Pizza.nbPizza--;
 				break;
 			case 99:
 				System.out.println("***** Arret en cours veuillez patientez *****");
@@ -129,26 +132,60 @@ public class PizzeriaAdminConsoleApp {
 		}
 	}
 
-	private static void showListPizzas(String[][] listPizza, boolean index) {
-		for(int i=0; i<listPizza.length; i++){
-			if(index){
-				System.out.print(listPizza[i][0]+". ");
+	private static void modifyPizza(Scanner sc, int index) {
+		listPizza[index].id = index;
+		System.out.println("Veuillez saisir le code");
+		listPizza[index].code = sc.next();
+		System.out.println("Veuillez saisir le nom");
+		sc.nextLine();
+		listPizza[index].name = sc.nextLine();
+		System.out.println("Veuillez saisir le prix");
+		while(true){
+
+			String temp = sc.next();
+
+			try{
+				listPizza[index].price = Float.parseFloat(temp);
+				break;
+			} catch(NumberFormatException e){
+				System.out.println("Saisie incorrect veuillez entrez un nombre...");
 			}
-			System.out.println(listPizza[i][1]+" -> "+listPizza[i][2]+" ("+ listPizza[i][3] +")");
+
 		}
 	}
 
-	private static String[] setPizza(Scanner sc, int index) {
-		String[] tempPizza = new String[4];
-		tempPizza[0] = ""+index;
+	private static void showListPizzas(Pizza[] listPizza, boolean index) {
+		for(int i=0; i<listPizza.length; i++){
+			if(index){
+				System.out.print(listPizza[i].id+". ");
+			}
+			System.out.println(listPizza[i].code+" -> "+listPizza[i].name+" ("+ listPizza[i].price +")");
+		}
+		System.out.println("------- "+Pizza.nbPizza+" pizzas créées depuis l’initialisation du programme");
+	}
+
+	private static Pizza addPizza(Scanner sc, int index) {
+		Pizza tempPizza = new Pizza();
+		tempPizza.id = index;
 		System.out.println("Veuillez saisir le code");
-		tempPizza[1] = sc.next();
+		tempPizza.code = sc.next();
 		System.out.println("Veuillez saisir le nom");
 		sc.nextLine();
-		tempPizza[2] = sc.nextLine();
+		tempPizza.name = sc.nextLine();
 		System.out.println("Veuillez saisir le prix");
-		tempPizza[3] = sc.next();
-		return tempPizza;		
+		while(true){
+
+			String temp = sc.next();
+
+			try{
+				tempPizza.price = Float.parseFloat(temp);
+				break;
+			} catch(NumberFormatException e){
+				System.out.println("Saisie incorrect veuillez entrez un nombre...");
+			}
+
+		}
+		return tempPizza;
 	}
 
 }
