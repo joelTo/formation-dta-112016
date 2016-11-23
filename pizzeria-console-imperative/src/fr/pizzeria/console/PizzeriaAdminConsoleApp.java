@@ -3,36 +3,38 @@ package fr.pizzeria.console;
 import java.util.Scanner;
 
 public class PizzeriaAdminConsoleApp {
+	
+	String nom;
 
 	/*
-	 *	Ci-dessous les variables sont déclarées en "Global"
-	 *	Cela permet d'y accéder à partir de n'importe quelle fonction
+	 *	Ci-dessous les variables sont dï¿½clarï¿½es en "Global"
+	 *	Cela permet d'y accï¿½der ï¿½ partir de n'importe quelle fonction
 	 */
 	public static String[] menu = {							// Phrases du menu principal
 			"***** Pizzeria Administration *****",
 			"1. Lister les pizzas",
 			"2. Ajouter une nouvelle pizza",
-			"3. Mettre à jour une pizza",
+			"3. Mettre ï¿½ jour une pizza",
 			"4. Supprimer une pizza",
 			"99. Sortir",
 	};
-	public static Scanner reader = new Scanner(System.in);  // Déclaration du "Reader" pour les saisies utilisateur
-	public static String[][] pizzas = {						// Tableau répertoriant les pizzas
-			{"0", "PEP", "Pépéroni", "12.50"},
+	public static Scanner reader = new Scanner(System.in);  // Dï¿½claration du "Reader" pour les saisies utilisateur
+	public static String[][] pizzas = {						// Tableau rï¿½pertoriant les pizzas
+			{"0", "PEP", "Pï¿½pï¿½roni", "12.50"},
 			{"1", "MAR", "Margherita", "14.00"},
 			{"2", "REI", "La Reine", "11.50"},
 			{"3", "FRO", "La 4 fromages", "12.00"},
 			{"4", "CAN", "La cannibale", "12.50"},
 			{"5", "SAV", "La savoyarde", "13.00"},
-			{"6", "ORI", "L’orientale", "13.50"},
-			{"7", "IND", "L’indienne", "14.00"},
+			{"6", "ORI", "Lï¿½orientale", "13.50"},
+			{"7", "IND", "Lï¿½indienne", "14.00"},
 	};
 
 	/**
-	 * Recopie intégralement le tableau de pizzas
-	 * En y ajoutant la pizza passée en paramètre
-	 * La copie du tableau est alors affectée au tableau initial
-	 * Cela permet la création
+	 * Recopie intï¿½gralement le tableau de pizzas
+	 * En y ajoutant la pizza passï¿½e en paramï¿½tre
+	 * La copie du tableau est alors affectï¿½e au tableau initial
+	 * Cela permet la crï¿½ation
 	 * @param newPizza
 	 */
 	public static void pushPizzaToArray(String[] newPizza) {
@@ -54,9 +56,9 @@ public class PizzeriaAdminConsoleApp {
 	}
 
 	/**
-	 * Recopie intégralement le tableau de pizzas
-	 * En laissant de côté la pizza dont le code est passé en paramètre
-	 * La copie du tableau est alors affectée au tableau initial
+	 * Recopie intï¿½gralement le tableau de pizzas
+	 * En laissant de cï¿½tï¿½ la pizza dont le code est passï¿½ en paramï¿½tre
+	 * La copie du tableau est alors affectï¿½e au tableau initial
 	 * Cela permet la suppression
 	 * @param code
 	 */
@@ -80,30 +82,26 @@ public class PizzeriaAdminConsoleApp {
 
 	/**
 	 * Une fonction utile qui va permettre d'afficher le tableau de pizzas
-	 * Formaté en fonction des paramètres
+	 * Formatï¿½ en fonction des paramï¿½tres
 	 * @param initial
 	 * @param action
 	 */
 	public static void printPizzaList(boolean initial, String action) {
 
-		if (initial) {
-			for (String[] p: pizzas)
-			{
-				System.out.println(p[1] + " -> " + p[2] + " (" + p[3] + " €)");
-			}	
+		String separateur = initial ? " -> ": " - ";
+		
+		for (String[] p: pizzas) {
+			System.out.println(p[1] + separateur + p[2] + " (" + p[3] + " ï¿½)");
 		}
-		else {
-			for (String[] p: pizzas)
-			{
-				System.out.println(p[1] + " - " + p[2] + " (" + p[3] + " €)");
-			}
-			System.out.println("Veuillez choisir la pizza à " + action + ".");
-			System.out.println("(99 pour abandonner).");
+		
+		if (!initial) {
+			System.out.println("Veuillez choisir la pizza ï¿½ " + action + ".");
+			System.out.println("(99 pour abandonner).");	
 		}
 	}
 
 	/**
-	 * La fonction qui va lancer la création d'une pizza
+	 * La fonction qui va lancer la crï¿½ation d'une pizza
 	 */
 	public static void createPizza() {
 
@@ -121,7 +119,7 @@ public class PizzeriaAdminConsoleApp {
 	}
 
 	/**
-	 * Une fonction utile qui récupère l'ID d'une pizza dans le tableau
+	 * Une fonction utile qui rï¿½cupï¿½re l'ID d'une pizza dans le tableau
 	 * en fonction de son code
 	 * @param code
 	 * @return
@@ -146,7 +144,7 @@ public class PizzeriaAdminConsoleApp {
 			printPizzaList(false, "modifier");
 
 			String code = reader.next();
-			int pizzaId = getIdFromCode(code);
+			Integer pizzaId = getIdFromCode(code);
 
 			if (pizzaId != -1) {
 				System.out.println("Veuillez saisir le code");
@@ -204,10 +202,8 @@ public class PizzeriaAdminConsoleApp {
 	public static void printMenu() {
 
 		boolean flag = false;
-
-		while (true) {
-			for (String s: menu)
-			{
+		while (!flag) {
+			for (String s: menu) {
 				System.out.println(s);
 			}
 
@@ -231,15 +227,12 @@ public class PizzeriaAdminConsoleApp {
 				flag = true;
 				break;
 			}
-			if (flag) {
-				reader.close();
-				break;
-			}
 		}
+		reader.close();
 	}
 
 	/**
-	 * Point d'entrée du programme
+	 * Point d'entrï¿½e du programme
 	 * On execute la fonction qui va afficher le menu principal
 	 * en boucle
 	 * @param args
