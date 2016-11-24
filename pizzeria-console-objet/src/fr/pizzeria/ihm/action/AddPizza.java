@@ -2,14 +2,19 @@ package fr.pizzeria.ihm.action;
 
 import java.util.Scanner;
 
+import fr.pizzeria.dao.PizzaDao;
+import fr.pizzeria.ihm.IhmUtil;
+import fr.pizzeria.model.Pizza;
+
 public class AddPizza extends Action {
 
-	private Scanner reader;
 
-	public AddPizza(Scanner reader) {
+	private IhmUtil ihmUtil;
+
+	public AddPizza(IhmUtil ihmUtil) {
 		super();
-		this.reader = reader;
 		this.setDescription("2. Ajouter une nouvelle pizza");
+		this.ihmUtil = ihmUtil;
 	}
 
 	@Override
