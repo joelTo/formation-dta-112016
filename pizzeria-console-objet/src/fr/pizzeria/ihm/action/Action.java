@@ -1,4 +1,4 @@
-package fr.pizzeria.model;
+package fr.pizzeria.ihm.action;
 
 public abstract class Action {
 
@@ -12,6 +12,6 @@ public abstract class Action {
 		this.description = description;
 	}
 
-	public abstract void do_action();
-	public abstract void describe_action();
+	public abstract void doAction();
+	public abstract void describeAction();
 }

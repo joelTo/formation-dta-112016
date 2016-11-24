@@ -1,4 +1,4 @@
-package fr.pizzeria.model;
+package fr.pizzeria.ihm.action;
 
 public class ListPizza extends Action {
 
@@ -9,12 +9,12 @@ public class ListPizza extends Action {
 	}
 
 	@Override
-	public void do_action() {
+	public void doAction() {
 		System.out.println("JE LISTE LES PIZZAS :D");
 	}
 
 	@Override
-	public void describe_action() {
+	public void describeAction() {
 		System.out.println(this.getDescription());
 	}
 

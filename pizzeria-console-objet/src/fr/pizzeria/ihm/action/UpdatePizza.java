@@ -1,19 +1,19 @@
-package fr.pizzeria.model;
+package fr.pizzeria.ihm.action;
 
 public class UpdatePizza extends Action {
 
 	public UpdatePizza() {
 		super();
-		this.setDescription("3. Mettre à jour une pizza");
+		this.setDescription("3. Mettre ï¿½ jour une pizza");
 	}
 
 	@Override
-	public void do_action() {
+	public void doAction() {
 		System.out.println("JE MODIFIE UNE PIZZA :D YOLOOOOO :O");
 	}
 
 	@Override
-	public void describe_action() {
+	public void describeAction() {
 		System.out.println(this.getDescription());
 	}
 
